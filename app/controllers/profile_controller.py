@@ -10,7 +10,6 @@ def create_or_update_profile(db: Session, user_id: uuid.UUID, email:str, profile
     if profile:
         profile.first_name = profile_data.first_name
         profile.last_name = profile_data.last_name
-        profile.email = email
     else:
         profile = Profile(
             user_id = user_id,
@@ -26,6 +25,7 @@ def create_or_update_profile(db: Session, user_id: uuid.UUID, email:str, profile
 
 def get_profile(db: Session, user_id: uuid.UUID):
     profile = db.query(Profile).filter(Profile.user_id == user_id).first()
+    print(profile)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
     return profile
